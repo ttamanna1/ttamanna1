@@ -1,0 +1,31 @@
+name: Update README with GitHub Stats and Languages
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs daily at midnight UTC
+  workflow_dispatch: # Allows manual trigger of the workflow
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Step 2: Generate README content
+      - name: Update README Content
+        run: |
+          echo "## GitHub Stats and Languages" > README.md
+          echo "![GitHub Stats](https://github-readme-stats.vercel.app/api?username=ttamanna1&include_all_commits=true&show_icons=true&theme=jolly)" >> README.md
+          echo "[![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=ttamanna1&layout=compact&title_color=ff64da&border_color=291B3E)](https://github.com/anuraghazra/github-readme-stats)" >> README.md
+
+      # Step 3: Commit changes
+      - name: Commit and Push Changes
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "Update README with GitHub Stats"
+          git push
