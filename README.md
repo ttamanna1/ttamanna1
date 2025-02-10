@@ -6,7 +6,7 @@
   <pre>
     🌱 I'm learning JavaScript and Python
     💻 Bootcamp survivor and self-taught programmer
-    🌐 Check out my <a href="https://tamannakhanum.com/">website</a> 
+    🌐 Check out my <a href="https://tamanna.dev/">website</a> 
   </pre>
   <a href="https://github.com/ttamanna1">
     <img height="150" align="center" src="https://github-readme-stats.vercel.app/api?username=ttamanna1&include_all_commits=true&show_icons=true&theme=jolly&hide=contribs" />
