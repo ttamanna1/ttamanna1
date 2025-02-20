@@ -2,7 +2,7 @@ name: Update README with GitHub Stats and Languages
 
 on:
   schedule:
-    - cron: '0 22 * * *'
+    - cron: '0 08 * * *'
   workflow_dispatch: # Allows manual trigger of the workflow
 
 jobs:
