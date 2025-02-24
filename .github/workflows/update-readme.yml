@@ -1,35 +1,84 @@
 name: Update README with GitHub Stats and Languages
 
+# on:
+#   schedule:
+#     - cron: '0 08 * * *'
+#   workflow_dispatch: # Allows manual trigger of the workflow
+
+# jobs:
+#   update-readme:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       # Step 1: Checkout the repository
+#       - name: Checkout Repository
+#         uses: actions/checkout@v3
+
+#       # Step 2: Update README content (Preserve your custom content)
+#       - name: Update GitHub Stats in README
+#         run: |
+#           README_FILE=README.md
+          
+#           # Update the GitHub Stats image
+#           sed -i 's|<img height="150" align="center" src="https://github-readme-stats.vercel.app/api?username=ttamanna1.*"|<img height="150" align="center" src="https://github-readme-stats.vercel.app/api?username=ttamanna1\&include_all_commits=true\&show_icons=true\&theme=jolly\&hide=contribs"|' $README_FILE
+          
+#           # Update the Top Languages image
+#           sed -i 's|<img height="150" align="center" src="https://github-readme-stats.vercel.app/api/top-langs.*"|<img height="150" align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=ttamanna1\&layout=compact\&title_color=ff64da\&border_color=291B3E"|' $README_FILE
+     
+#       # Step 3: Commit changes
+#       - name: Commit and Push Changes
+#         run: |
+#           git config --local user.name "github-actions[bot]"
+#           git config --local user.email "github-actions[bot]@users.noreply.github.com"
+#           git add README.md
+#           git diff --staged --quiet || git commit -m "Update GitHub stats"
+#           git push
+
+name: Update README with GitHub Stats and Languages
 on:
   schedule:
-    - cron: '0 08 * * *'
-  workflow_dispatch: # Allows manual trigger of the workflow
+    - cron: '0 08 * * *'  # Note: Your cron syntax had '**' which is invalid
+  workflow_dispatch:
 
 jobs:
   update-readme:
     runs-on: ubuntu-latest
-
     steps:
-      # Step 1: Checkout the repository
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      # Step 2: Update README content (Preserve your custom content)
+      - uses: actions/checkout@v3
+      
       - name: Update GitHub Stats in README
         run: |
           README_FILE=README.md
           
-          # Update the GitHub Stats image
-          sed -i 's|<img height="150" align="center" src="https://github-readme-stats.vercel.app/api?username=ttamanna1.*"|<img height="150" align="center" src="https://github-readme-stats.vercel.app/api?username=ttamanna1\&include_all_commits=true\&show_icons=true\&theme=jolly\&hide=contribs"|' $README_FILE
+          # Add debug output
+          echo "Current README content:"
+          cat $README_FILE
           
-          # Update the Top Languages image
+          # Make replacements and show if they worked
+          sed -i 's|<img height="150" align="center" src="https://github-readme-stats.vercel.app/api?username=ttamanna1.*"|<img height="150" align="center" src="https://github-readme-stats.vercel.app/api?username=ttamanna1\&include_all_commits=true\&show_icons=true\&theme=jolly\&hide=contribs"|' $README_FILE
+          echo "After first replacement:"
+          cat $README_FILE
+          
           sed -i 's|<img height="150" align="center" src="https://github-readme-stats.vercel.app/api/top-langs.*"|<img height="150" align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=ttamanna1\&layout=compact\&title_color=ff64da\&border_color=291B3E"|' $README_FILE
-     
-      # Step 3: Commit changes
+          echo "After second replacement:"
+          cat $README_FILE
+          
+          # Show if there are any changes to commit
+          git status
+      
       - name: Commit and Push Changes
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git add README.md
+          
+          # Debug output for git status
+          echo "Git status before commit:"
+          git status
+          
           git diff --staged --quiet || git commit -m "Update GitHub stats"
+          
+          echo "Git status after commit:"
+          git status
+          
           git push
