@@ -1,84 +1,47 @@
-# name: Update README with GitHub Stats and Languages
-
-# on:
-#   schedule:
-#     - cron: '0 08 * * *'
-#   workflow_dispatch: # Allows manual trigger of the workflow
-
-# jobs:
-#   update-readme:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       # Step 1: Checkout the repository
-#       - name: Checkout Repository
-#         uses: actions/checkout@v3
-
-#       # Step 2: Update README content (Preserve your custom content)
-#       - name: Update GitHub Stats in README
-#         run: |
-#           README_FILE=README.md
-          
-#           # Update the GitHub Stats image
-#           sed -i 's|<img height="150" align="center" src="https://github-readme-stats.vercel.app/api?username=ttamanna1.*"|<img height="150" align="center" src="https://github-readme-stats.vercel.app/api?username=ttamanna1\&include_all_commits=true\&show_icons=true\&theme=jolly\&hide=contribs"|' $README_FILE
-          
-#           # Update the Top Languages image
-#           sed -i 's|<img height="150" align="center" src="https://github-readme-stats.vercel.app/api/top-langs.*"|<img height="150" align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=ttamanna1\&layout=compact\&title_color=ff64da\&border_color=291B3E"|' $README_FILE
-     
-#       # Step 3: Commit changes
-#       - name: Commit and Push Changes
-#         run: |
-#           git config --local user.name "github-actions[bot]"
-#           git config --local user.email "github-actions[bot]@users.noreply.github.com"
-#           git add README.md
-#           git diff --staged --quiet || git commit -m "Update GitHub stats"
-#           git push
-
 name: Update README with GitHub Stats and Languages
 on:
   schedule:
-    - cron: '0 08 * * *'  # Note: Your cron syntax had '**' which is invalid
+    - cron: '0 08 * * *'  
   workflow_dispatch:
 
 jobs:
   update-readme:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      
-      - name: Update GitHub Stats in README
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        
+      - name: Verify if updates are needed
         run: |
           README_FILE=README.md
-          
-          # Add debug output
           echo "Current README content:"
           cat $README_FILE
           
-          # Make replacements and show if they worked
-          sed -i 's|<img height="150" align="center" src="https://github-readme-stats.vercel.app/api?username=ttamanna1.*"|<img height="150" align="center" src="https://github-readme-stats.vercel.app/api?username=ttamanna1\&include_all_commits=true\&show_icons=true\&theme=jolly\&hide=contribs"|' $README_FILE
-          echo "After first replacement:"
-          cat $README_FILE
+          # Check if the README already has the latest content
+          if grep -q "include_all_commits=true" $README_FILE && grep -q "title_color=ff64da" $README_FILE; then
+            echo "README already has the latest stats configuration. No changes needed."
+          else
+            echo "Updates needed to README."
+          fi
           
-          sed -i 's|<img height="150" align="center" src="https://github-readme-stats.vercel.app/api/top-langs.*"|<img height="150" align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=ttamanna1\&layout=compact\&title_color=ff64da\&border_color=291B3E"|' $README_FILE
-          echo "After second replacement:"
-          cat $README_FILE
+          #Timestamp
+          echo "Last updated: $(date)" >> $README_FILE
           
-          # Show if there are any changes to commit
-          git status
-      
       - name: Commit and Push Changes
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git add README.md
           
-          # Debug output for git status
+          # Debug output
           echo "Git status before commit:"
           git status
           
-          git diff --staged --quiet || git commit -m "Update GitHub stats"
-          
-          echo "Git status after commit:"
-          git status
-          
-          git push
+          # Only commit if there are changes
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update GitHub stats - $(date)"
+            git push
+            echo "Changes committed and pushed successfully"
+          fi
