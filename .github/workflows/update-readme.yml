@@ -1,0 +1,74 @@
+name: Update README
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Run every hour
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Fetch GitHub Stats
+        id: fetch-stats
+        run: |
+          curl -s "https://github-readme-stats.vercel.app/api?username=ttamanna1&include_all_commits=true&show_icons=true&theme=jolly&hide=contribs" > stats.json
+          if grep -q "Something went wrong" stats.json; then
+            echo "::set-output name=stats::Error"
+          else
+            echo "::set-output name=stats::Success"
+          fi
+
+      - name: Update README
+        run: |
+          if [[ "${{ steps.fetch-stats.outputs.stats }}" == "Success" ]]; then
+            cat > README.md <<EOL
+<h1 align="center">
+  <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=500&size=40&pause=1000&color=FF64DA&center=true&vCenter=true&width=435&lines=Hi%2C+I'm+Tamanna+%F0%9F%98%8A" alt="Typing SVG" /></a>
+</h1>
+
+<div align="center">
+  <pre>
+    🌱 I'm learning JavaScript and Python
+    💻 Bootcamp survivor and self-taught programmer
+    🌐 Check out my <a href="https://tamanna.dev/">website</a> 
+  </pre>
+</div>
+
+<div align="center">
+  <!-- GitHub Stats -->
+  <a href="https://github.com/ttamanna1">
+    <img height="150" align="center" alt="GitHub Stats" src="https://github-readme-stats.vercel.app/api?username=ttamanna1&include_all_commits=true&show_icons=true&theme=jolly&hide=contribs" />
+  </a>
+  <a href="https://github.com/ttamanna1">
+    <img height="150" align="center" alt="Top Languages" src="https://github-readme-stats.vercel.app/api/top-langs/?username=ttamanna1&layout=compact&title_color=ff64da&border_color=291B3E" />
+  </a>
+</div>
+EOL
+          else
+            cat > README.md <<EOL
+<h1 align="center">
+  <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=500&size=40&pause=1000&color=FF64DA&center=true&vCenter=true&width=435&lines=Hi%2C+I'm+Tamanna+%F0%9F%98%8A" alt="Typing SVG" /></a>
+</h1>
+
+<div align="center">
+  <pre>
+    🌱 I'm learning JavaScript and Python
+    💻 Bootcamp survivor and self-taught programmer
+    🌐 Check out my <a href="https://tamanna.dev/">website</a> 
+  </pre>
+</div>
+EOL
+          fi
+
+      - name: Commit and Push Changes
+        run: |
+          git config --local user.name "GitHub Actions"
+          git config --local user.email "actions@github.com"
+          git add README.md
+          git commit -m "Update README with or without stats"
+          git push
