@@ -1,18 +1,14 @@
 name: Update README
-
 on:
   schedule:
     - cron: '0 * * * *' # Run every hour
   workflow_dispatch: # Allow manual trigger
-
 jobs:
   update-readme:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
       - name: Fetch GitHub Stats
         id: fetch-stats
         run: |
@@ -22,15 +18,13 @@ jobs:
           else
             echo "::set-output name=stats::Success"
           fi
-
       - name: Update README
         run: |
           if [[ "${{ steps.fetch-stats.outputs.stats }}" == "Success" ]]; then
-            cat > README.md <<EOL
+            cat > README.md <<'EOL'
 <h1 align="center">
   <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=500&size=40&pause=1000&color=FF64DA&center=true&vCenter=true&width=435&lines=Hi%2C+I'm+Tamanna+%F0%9F%98%8A" alt="Typing SVG" /></a>
 </h1>
-
 <div align="center">
   <pre>
     🌱 I'm learning JavaScript and Python
@@ -38,7 +32,6 @@ jobs:
     🌐 Check out my <a href="https://tamanna.dev/">website</a> 
   </pre>
 </div>
-
 <div align="center">
   <!-- GitHub Stats -->
   <a href="https://github.com/ttamanna1">
@@ -50,11 +43,10 @@ jobs:
 </div>
 EOL
           else
-            cat > README.md <<EOL
+            cat > README.md <<'EOL'
 <h1 align="center">
   <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=500&size=40&pause=1000&color=FF64DA&center=true&vCenter=true&width=435&lines=Hi%2C+I'm+Tamanna+%F0%9F%98%8A" alt="Typing SVG" /></a>
 </h1>
-
 <div align="center">
   <pre>
     🌱 I'm learning JavaScript and Python
@@ -64,7 +56,6 @@ EOL
 </div>
 EOL
           fi
-
       - name: Commit and Push Changes
         run: |
           git config --local user.name "GitHub Actions"
