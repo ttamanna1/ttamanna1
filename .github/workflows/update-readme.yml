@@ -21,9 +21,9 @@ jobs:
       - name: Update README
         run: |
           if [[ "${{ steps.fetch-stats.outputs.stats }}" == "Success" ]]; then
-            cat > README.md <<'EOL'
+            cat > README.md << 'ENDOFFILE'
 <h1 align="center">
-  <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=500&size=40&pause=1000&color=FF64DA&center=true&vCenter=true&width=435&lines=Hi%2C+I'm+Tamanna+%F0%9F%98%8A" alt="Typing SVG" /></a>
+  <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=500&size=40&pause=1000&color=FF64DA&center=true&vCenter=true&width=435&lines=Hi%2C+I%27m+Tamanna+%F0%9F%98%8A" alt="Typing SVG" /></a>
 </h1>
 <div align="center">
   <pre>
@@ -41,11 +41,11 @@ jobs:
     <img height="150" align="center" alt="Top Languages" src="https://github-readme-stats.vercel.app/api/top-langs/?username=ttamanna1&layout=compact&title_color=ff64da&border_color=291B3E" />
   </a>
 </div>
-EOL
+ENDOFFILE
           else
-            cat > README.md <<'EOL'
+            cat > README.md << 'ENDOFFILE'
 <h1 align="center">
-  <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=500&size=40&pause=1000&color=FF64DA&center=true&vCenter=true&width=435&lines=Hi%2C+I'm+Tamanna+%F0%9F%98%8A" alt="Typing SVG" /></a>
+  <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=500&size=40&pause=1000&color=FF64DA&center=true&vCenter=true&width=435&lines=Hi%2C+I%27m+Tamanna+%F0%9F%98%8A" alt="Typing SVG" /></a>
 </h1>
 <div align="center">
   <pre>
@@ -54,7 +54,7 @@ EOL
     🌐 Check out my <a href="https://tamanna.dev/">website</a> 
   </pre>
 </div>
-EOL
+ENDOFFILE
           fi
       - name: Commit and Push Changes
         run: |
