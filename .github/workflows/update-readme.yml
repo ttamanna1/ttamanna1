@@ -13,7 +13,7 @@ jobs:
       - name: Fetch GitHub Stats
         id: fetch-stats
         run: |
-          curl -s "https://github-readme-stats.vercel.app/api?username=ttamanna1&include_all_commits=true&show_icons=true&theme=jolly&hide=contribs&count_private=true&token=${{ secrets.GH_TOKEN }}" > stats.json
+          curl -s "https://github-readme-stats.vercel.app/api?username=ttamanna1&include_all_commits=true&show_icons=true&theme=jolly&hide=contribs" > stats.json
           if grep -q "Something went wrong" stats.json; then
             echo "stats=Error" >> $GITHUB_OUTPUT
           else
@@ -39,7 +39,7 @@ jobs:
           echo '    <img height="150" align="center" alt="GitHub Stats" src="https://github-readme-stats.vercel.app/api?username=ttamanna1&include_all_commits=true&show_icons=true&theme=jolly&hide=contribs" />' >> README.md
           echo '  </a>' >> README.md
           echo '  <a href="https://github.com/ttamanna1">' >> README.md
-          echo '    <img height="150" align="center" alt="Top Languages" src="https://github-readme-stats.vercel.app/api/top-langs/?username=ttamanna1&layout=compact&title_color=ff64da&border_color=291B3E" />' >> README.md
+          echo '    <img height="150" align="center" alt="Top Languages" src="https://github-readme-stats.vercel.app/api/top-langs/?username=ttamanna1&layout=compact&title_color=ff64da&border_color=291B3E&count_private=true&token=${{ secrets.GH_TOKEN }}" />' >> README.md
           echo '  </a>' >> README.md
           echo '</div>' >> README.md
       
@@ -58,7 +58,7 @@ jobs:
           echo '</div>' >> README.md
           echo '<div align="center">' >> README.md
           echo '  <a href="https://github.com/ttamanna1">' >> README.md
-          echo '    <img height="150" align="center" alt="Top Languages" src="https://github-readme-stats.vercel.app/api/top-langs/?username=ttamanna1&layout=compact&title_color=ff64da&border_color=291B3E" />' >> README.md
+          echo '    <img height="150" align="center" alt="Top Languages" src="https://github-readme-stats.vercel.app/api/top-langs/?username=ttamanna1&layout=compact&title_color=ff64da&border_color=291B3E&count_private=true&token=${{ secrets.GH_TOKEN }}" />' >> README.md
           echo '  </a>' >> README.md
           echo '</div>' >> README.md
       
